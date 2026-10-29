@@ -30,8 +30,12 @@ class Fraction:
         self.den = den // coeff
 
     @override
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return f"{self.num}/{self.den}" if self.den != 1 else f"{self.num}"
+
+    @override
+    def __repr__(self) -> str:
+        return f"Fraction({self.num}, {self.den})"
 
     def __add__(self, other: Fraction) -> Fraction:
         num = self.num * other.den + other.num * self.den
@@ -51,6 +55,12 @@ class Fraction:
     def __sub__(self, other: Fraction) -> Fraction:
         return self + (-other)
 
+    def __pos__(self) -> Fraction:
+        return self
+
+    def __invert__(self) -> Fraction:
+        return Fraction(self.den, self.num)
+
     @override
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Fraction):
@@ -66,10 +76,9 @@ class Fraction:
         if other == Fraction(0, 1):
             raise DivisionByZero
 
-        inverted = Fraction(other.den, other.num)
-        return self * inverted
+        return self * (~other)
 
-    def to_float(self) -> float:
+    def __float__(self) -> float:
         return self.num / self.den
 
     def __gt__(self, other: Fraction) -> bool:
@@ -77,3 +86,13 @@ class Fraction:
 
     def __lt__(self, other: Fraction) -> bool:
         return self.num * other.den < other.num * self.den
+
+    def __ge__(self, other: Fraction) -> bool:
+        return self.num * other.den >= other.num * self.den
+
+    def __le__(self, other: Fraction) -> bool:
+        return self.num * other.den <= other.num * self.den
+
+    @override
+    def __hash__(self):
+        return hash(float(self))

@@ -29,7 +29,7 @@ class Tests(unittest.TestCase):
         self.assertFalse(Fraction(6, 7) == Fraction(6, 11))
 
     def test_frac2float(self):
-        self.assertEqual(Fraction(1, 4).to_float(), 0.25)
+        self.assertEqual(float(Fraction(1, 4)), 0.25)
 
 
 if __name__ == "__main__":
